@@ -1,0 +1,10 @@
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolData\bin\Debug\SchoolData.dll.config
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolData\bin\Debug\SchoolData.dll
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolData\bin\Debug\SchoolData.pdb
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolData\bin\Debug\EntityFramework.dll
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolData\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolData\bin\Debug\EntityFramework.xml
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolData\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolData\obj\Debug\SchoolData.csprojResolveAssemblyReference.cache
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolData\obj\Debug\SchoolData.dll
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolData\obj\Debug\SchoolData.pdb

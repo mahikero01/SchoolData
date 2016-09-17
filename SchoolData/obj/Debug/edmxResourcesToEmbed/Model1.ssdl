@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SchoolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="SD_Course">
+    <Key>
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Credits" Type="int" Nullable="false" />
+    <Property Name="DepartmentID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SD_CourseGrade">
+    <Key>
+      <PropertyRef Name="EnrollmentID" />
+    </Key>
+    <Property Name="EnrollmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="StudentID" Type="int" Nullable="false" />
+    <Property Name="Grade" Type="decimal" Precision="3" Scale="2" />
+  </EntityType>
+  <EntityType Name="SD_CourseInstructor">
+    <Key>
+      <PropertyRef Name="CourseID" />
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="PersonID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SD_Department">
+    <Key>
+      <PropertyRef Name="DepartmentID" />
+    </Key>
+    <Property Name="DepartmentID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Budget" Type="money" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="Administrator" Type="int" />
+  </EntityType>
+  <EntityType Name="SD_OfficeAssignment">
+    <Key>
+      <PropertyRef Name="InstructorID" />
+    </Key>
+    <Property Name="InstructorID" Type="int" Nullable="false" />
+    <Property Name="Location" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SD_OnlineCourse">
+    <Key>
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="URL" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SD_OnsiteCourse">
+    <Key>
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="Location" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Days" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Time" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SD_Person">
+    <Key>
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="PersonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="HireDate" Type="datetime" />
+    <Property Name="EnrollmentDate" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_Course_Department">
+    <End Role="SD_Department" Type="Self.SD_Department" Multiplicity="1" />
+    <End Role="SD_Course" Type="Self.SD_Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Department">
+        <PropertyRef Name="DepartmentID" />
+      </Principal>
+      <Dependent Role="SD_Course">
+        <PropertyRef Name="DepartmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseGrade_Course">
+    <End Role="SD_Course" Type="Self.SD_Course" Multiplicity="1" />
+    <End Role="SD_CourseGrade" Type="Self.SD_CourseGrade" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Course">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="SD_CourseGrade">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseGrade_Student">
+    <End Role="SD_Person" Type="Self.SD_Person" Multiplicity="1" />
+    <End Role="SD_CourseGrade" Type="Self.SD_CourseGrade" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="SD_CourseGrade">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseInstructor_Course">
+    <End Role="SD_Course" Type="Self.SD_Course" Multiplicity="1" />
+    <End Role="SD_CourseInstructor" Type="Self.SD_CourseInstructor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Course">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="SD_CourseInstructor">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseInstructor_Person">
+    <End Role="SD_Person" Type="Self.SD_Person" Multiplicity="1" />
+    <End Role="SD_CourseInstructor" Type="Self.SD_CourseInstructor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="SD_CourseInstructor">
+        <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OfficeAssignment_Person">
+    <End Role="SD_Person" Type="Self.SD_Person" Multiplicity="1" />
+    <End Role="SD_OfficeAssignment" Type="Self.SD_OfficeAssignment" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="SD_OfficeAssignment">
+        <PropertyRef Name="InstructorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OnlineCourse_Course">
+    <End Role="SD_Course" Type="Self.SD_Course" Multiplicity="1" />
+    <End Role="SD_OnlineCourse" Type="Self.SD_OnlineCourse" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Course">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="SD_OnlineCourse">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OnsiteCourse_Course">
+    <End Role="SD_Course" Type="Self.SD_Course" Multiplicity="1" />
+    <End Role="SD_OnsiteCourse" Type="Self.SD_OnsiteCourse" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Course">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="SD_OnsiteCourse">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="SD_CourseGrade_GetStudentGrades" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="StudentID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SD_OfficeAssignment_DeleteOfficeAssignment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InstructorID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SD_OfficeAssignment_InsertOfficeAssignment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InstructorID" Type="int" Mode="In" />
+    <Parameter Name="Location" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SD_OfficeAssignment_UpdateOfficeAssignment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InstructorID" Type="int" Mode="In" />
+    <Parameter Name="Location" Type="nvarchar" Mode="In" />
+    <Parameter Name="OrigTimestamp" Type="timestamp" Mode="In" />
+  </Function>
+  <Function Name="SD_Person_DeletePerson" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PersonID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SD_Person_InsertPerson" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="HireDate" Type="datetime" Mode="In" />
+    <Parameter Name="EnrollmentDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SD_Person_UpdatePerson" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PersonID" Type="int" Mode="In" />
+    <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="HireDate" Type="datetime" Mode="In" />
+    <Parameter Name="EnrollmentDate" Type="datetime" Mode="In" />
+  </Function>
+  <EntityContainer Name="SchoolModelStoreContainer">
+    <EntitySet Name="SD_Course" EntityType="Self.SD_Course" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SD_CourseGrade" EntityType="Self.SD_CourseGrade" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SD_CourseInstructor" EntityType="Self.SD_CourseInstructor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SD_Department" EntityType="Self.SD_Department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SD_OfficeAssignment" EntityType="Self.SD_OfficeAssignment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SD_OnlineCourse" EntityType="Self.SD_OnlineCourse" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SD_OnsiteCourse" EntityType="Self.SD_OnsiteCourse" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SD_Person" EntityType="Self.SD_Person" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Course_Department" Association="Self.FK_Course_Department">
+      <End Role="SD_Department" EntitySet="SD_Department" />
+      <End Role="SD_Course" EntitySet="SD_Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseGrade_Course" Association="Self.FK_CourseGrade_Course">
+      <End Role="SD_Course" EntitySet="SD_Course" />
+      <End Role="SD_CourseGrade" EntitySet="SD_CourseGrade" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseGrade_Student" Association="Self.FK_CourseGrade_Student">
+      <End Role="SD_Person" EntitySet="SD_Person" />
+      <End Role="SD_CourseGrade" EntitySet="SD_CourseGrade" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseInstructor_Course" Association="Self.FK_CourseInstructor_Course">
+      <End Role="SD_Course" EntitySet="SD_Course" />
+      <End Role="SD_CourseInstructor" EntitySet="SD_CourseInstructor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseInstructor_Person" Association="Self.FK_CourseInstructor_Person">
+      <End Role="SD_Person" EntitySet="SD_Person" />
+      <End Role="SD_CourseInstructor" EntitySet="SD_CourseInstructor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OfficeAssignment_Person" Association="Self.FK_OfficeAssignment_Person">
+      <End Role="SD_Person" EntitySet="SD_Person" />
+      <End Role="SD_OfficeAssignment" EntitySet="SD_OfficeAssignment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OnlineCourse_Course" Association="Self.FK_OnlineCourse_Course">
+      <End Role="SD_Course" EntitySet="SD_Course" />
+      <End Role="SD_OnlineCourse" EntitySet="SD_OnlineCourse" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OnsiteCourse_Course" Association="Self.FK_OnsiteCourse_Course">
+      <End Role="SD_Course" EntitySet="SD_Course" />
+      <End Role="SD_OnsiteCourse" EntitySet="SD_OnsiteCourse" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

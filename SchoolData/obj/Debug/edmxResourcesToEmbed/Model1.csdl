@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SchoolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="SD_Course">
+    <Key>
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="CourseID" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Credits" Type="Int32" Nullable="false" />
+    <Property Name="DepartmentID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="SD_Department" Relationship="Self.FK_Course_Department" FromRole="SD_Course" ToRole="SD_Department" />
+    <NavigationProperty Name="SD_CourseGrade" Relationship="Self.FK_CourseGrade_Course" FromRole="SD_Course" ToRole="SD_CourseGrade" />
+    <NavigationProperty Name="SD_OnlineCourse" Relationship="Self.FK_OnlineCourse_Course" FromRole="SD_Course" ToRole="SD_OnlineCourse" />
+    <NavigationProperty Name="SD_OnsiteCourse" Relationship="Self.FK_OnsiteCourse_Course" FromRole="SD_Course" ToRole="SD_OnsiteCourse" />
+    <NavigationProperty Name="SD_Person" Relationship="Self.SD_CourseInstructor" FromRole="SD_Course" ToRole="SD_Person" />
+  </EntityType>
+  <EntityType Name="SD_CourseGrade">
+    <Key>
+      <PropertyRef Name="EnrollmentID" />
+    </Key>
+    <Property Name="EnrollmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CourseID" Type="Int32" Nullable="false" />
+    <Property Name="StudentID" Type="Int32" Nullable="false" />
+    <Property Name="Grade" Type="Decimal" Precision="3" Scale="2" />
+    <NavigationProperty Name="SD_Course" Relationship="Self.FK_CourseGrade_Course" FromRole="SD_CourseGrade" ToRole="SD_Course" />
+    <NavigationProperty Name="SD_Person" Relationship="Self.FK_CourseGrade_Student" FromRole="SD_CourseGrade" ToRole="SD_Person" />
+  </EntityType>
+  <EntityType Name="SD_Department">
+    <Key>
+      <PropertyRef Name="DepartmentID" />
+    </Key>
+    <Property Name="DepartmentID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Budget" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Administrator" Type="Int32" />
+    <NavigationProperty Name="SD_Course" Relationship="Self.FK_Course_Department" FromRole="SD_Department" ToRole="SD_Course" />
+  </EntityType>
+  <EntityType Name="SD_OfficeAssignment">
+    <Key>
+      <PropertyRef Name="InstructorID" />
+    </Key>
+    <Property Name="InstructorID" Type="Int32" Nullable="false" />
+    <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="SD_Person" Relationship="Self.FK_OfficeAssignment_Person" FromRole="SD_OfficeAssignment" ToRole="SD_Person" />
+  </EntityType>
+  <EntityType Name="SD_OnlineCourse">
+    <Key>
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="CourseID" Type="Int32" Nullable="false" />
+    <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="SD_Course" Relationship="Self.FK_OnlineCourse_Course" FromRole="SD_OnlineCourse" ToRole="SD_Course" />
+  </EntityType>
+  <EntityType Name="SD_OnsiteCourse">
+    <Key>
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="CourseID" Type="Int32" Nullable="false" />
+    <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Days" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Time" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="SD_Course" Relationship="Self.FK_OnsiteCourse_Course" FromRole="SD_OnsiteCourse" ToRole="SD_Course" />
+  </EntityType>
+  <EntityType Name="SD_Person">
+    <Key>
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="PersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="HireDate" Type="DateTime" Precision="3" />
+    <Property Name="EnrollmentDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="SD_CourseGrade" Relationship="Self.FK_CourseGrade_Student" FromRole="SD_Person" ToRole="SD_CourseGrade" />
+    <NavigationProperty Name="SD_OfficeAssignment" Relationship="Self.FK_OfficeAssignment_Person" FromRole="SD_Person" ToRole="SD_OfficeAssignment" />
+    <NavigationProperty Name="SD_Course" Relationship="Self.SD_CourseInstructor" FromRole="SD_Person" ToRole="SD_Course" />
+  </EntityType>
+  <Association Name="FK_Course_Department">
+    <End Role="SD_Department" Type="Self.SD_Department" Multiplicity="1" />
+    <End Role="SD_Course" Type="Self.SD_Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Department">
+        <PropertyRef Name="DepartmentID" />
+      </Principal>
+      <Dependent Role="SD_Course">
+        <PropertyRef Name="DepartmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseGrade_Course">
+    <End Role="SD_Course" Type="Self.SD_Course" Multiplicity="1" />
+    <End Role="SD_CourseGrade" Type="Self.SD_CourseGrade" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Course">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="SD_CourseGrade">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OnlineCourse_Course">
+    <End Role="SD_Course" Type="Self.SD_Course" Multiplicity="1" />
+    <End Role="SD_OnlineCourse" Type="Self.SD_OnlineCourse" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Course">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="SD_OnlineCourse">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OnsiteCourse_Course">
+    <End Role="SD_Course" Type="Self.SD_Course" Multiplicity="1" />
+    <End Role="SD_OnsiteCourse" Type="Self.SD_OnsiteCourse" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Course">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="SD_OnsiteCourse">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseGrade_Student">
+    <End Role="SD_Person" Type="Self.SD_Person" Multiplicity="1" />
+    <End Role="SD_CourseGrade" Type="Self.SD_CourseGrade" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="SD_CourseGrade">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OfficeAssignment_Person">
+    <End Role="SD_Person" Type="Self.SD_Person" Multiplicity="1" />
+    <End Role="SD_OfficeAssignment" Type="Self.SD_OfficeAssignment" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="SD_OfficeAssignment">
+        <PropertyRef Name="InstructorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SD_CourseInstructor">
+    <End Role="SD_Course" Type="Self.SD_Course" Multiplicity="*" />
+    <End Role="SD_Person" Type="Self.SD_Person" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="SchoolEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="SD_Course" EntityType="Self.SD_Course" />
+    <EntitySet Name="SD_CourseGrade" EntityType="Self.SD_CourseGrade" />
+    <EntitySet Name="SD_Department" EntityType="Self.SD_Department" />
+    <EntitySet Name="SD_OfficeAssignment" EntityType="Self.SD_OfficeAssignment" />
+    <EntitySet Name="SD_OnlineCourse" EntityType="Self.SD_OnlineCourse" />
+    <EntitySet Name="SD_OnsiteCourse" EntityType="Self.SD_OnsiteCourse" />
+    <EntitySet Name="SD_Person" EntityType="Self.SD_Person" />
+    <AssociationSet Name="FK_Course_Department" Association="Self.FK_Course_Department">
+      <End Role="SD_Department" EntitySet="SD_Department" />
+      <End Role="SD_Course" EntitySet="SD_Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseGrade_Course" Association="Self.FK_CourseGrade_Course">
+      <End Role="SD_Course" EntitySet="SD_Course" />
+      <End Role="SD_CourseGrade" EntitySet="SD_CourseGrade" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OnlineCourse_Course" Association="Self.FK_OnlineCourse_Course">
+      <End Role="SD_Course" EntitySet="SD_Course" />
+      <End Role="SD_OnlineCourse" EntitySet="SD_OnlineCourse" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OnsiteCourse_Course" Association="Self.FK_OnsiteCourse_Course">
+      <End Role="SD_Course" EntitySet="SD_Course" />
+      <End Role="SD_OnsiteCourse" EntitySet="SD_OnsiteCourse" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseGrade_Student" Association="Self.FK_CourseGrade_Student">
+      <End Role="SD_Person" EntitySet="SD_Person" />
+      <End Role="SD_CourseGrade" EntitySet="SD_CourseGrade" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OfficeAssignment_Person" Association="Self.FK_OfficeAssignment_Person">
+      <End Role="SD_Person" EntitySet="SD_Person" />
+      <End Role="SD_OfficeAssignment" EntitySet="SD_OfficeAssignment" />
+    </AssociationSet>
+    <AssociationSet Name="SD_CourseInstructor" Association="Self.SD_CourseInstructor">
+      <End Role="SD_Course" EntitySet="SD_Course" />
+      <End Role="SD_Person" EntitySet="SD_Person" />
+    </AssociationSet>
+    <FunctionImport Name="SD_CourseGrade_GetStudentGrades" ReturnType="Collection(SchoolModel.SD_CourseGrade_GetStudentGrades_Result)">
+      <Parameter Name="StudentID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SD_OfficeAssignment_DeleteOfficeAssignment">
+      <Parameter Name="InstructorID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SD_OfficeAssignment_InsertOfficeAssignment" ReturnType="Collection(Binary)">
+      <Parameter Name="InstructorID" Mode="In" Type="Int32" />
+      <Parameter Name="Location" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SD_OfficeAssignment_UpdateOfficeAssignment" ReturnType="Collection(Binary)">
+      <Parameter Name="InstructorID" Mode="In" Type="Int32" />
+      <Parameter Name="Location" Mode="In" Type="String" />
+      <Parameter Name="OrigTimestamp" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="SD_Person_DeletePerson">
+      <Parameter Name="PersonID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SD_Person_InsertPerson" ReturnType="Collection(Decimal)">
+      <Parameter Name="LastName" Mode="In" Type="String" />
+      <Parameter Name="FirstName" Mode="In" Type="String" />
+      <Parameter Name="HireDate" Mode="In" Type="DateTime" />
+      <Parameter Name="EnrollmentDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="SD_Person_UpdatePerson">
+      <Parameter Name="PersonID" Mode="In" Type="Int32" />
+      <Parameter Name="LastName" Mode="In" Type="String" />
+      <Parameter Name="FirstName" Mode="In" Type="String" />
+      <Parameter Name="HireDate" Mode="In" Type="DateTime" />
+      <Parameter Name="EnrollmentDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="SD_CourseGrade_GetStudentGrades_Result">
+    <Property Type="Int32" Name="EnrollmentID" Nullable="false" />
+    <Property Type="Decimal" Name="Grade" Nullable="true" Precision="3" Scale="2" />
+  </ComplexType>
+</Schema>

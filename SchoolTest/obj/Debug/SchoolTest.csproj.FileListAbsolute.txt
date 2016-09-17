@@ -1,0 +1,12 @@
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolTest\bin\Debug\SchoolTest.exe.config
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolTest\bin\Debug\SchoolTest.exe
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolTest\bin\Debug\SchoolTest.pdb
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolTest\bin\Debug\EntityFramework.dll
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolTest\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolTest\bin\Debug\SchoolData.dll
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolTest\bin\Debug\SchoolData.pdb
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolTest\bin\Debug\EntityFramework.xml
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolTest\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolTest\obj\Debug\SchoolTest.csprojResolveAssemblyReference.cache
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolTest\obj\Debug\SchoolTest.exe
+C:\Users\Mahikero01\Documents\SandBox\SchoolData\SchoolTest\obj\Debug\SchoolTest.pdb
