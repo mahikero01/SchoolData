@@ -34,6 +34,7 @@ namespace SchoolData
         public virtual DbSet<SD_OnlineCourse> SD_OnlineCourse { get; set; }
         public virtual DbSet<SD_OnsiteCourse> SD_OnsiteCourse { get; set; }
         public virtual DbSet<SD_Person> SD_Person { get; set; }
+        public virtual DbSet<SD_Student> SD_Student { get; set; }
     
         public virtual ObjectResult<SD_CourseGrade_GetStudentGrades_Result> SD_CourseGrade_GetStudentGrades(Nullable<int> studentID)
         {

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SchoolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SchoolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="SD_Course">
           <Key>
             <PropertyRef Name="CourseID" />
@@ -74,6 +74,13 @@
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="HireDate" Type="datetime" />
           <Property Name="EnrollmentDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SD_Student">
+          <Key>
+            <PropertyRef Name="PersonID" />
+          </Key>
+          <Property Name="PersonID" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Course_Department">
           <End Role="SD_Department" Type="Self.SD_Department" Multiplicity="1" />
@@ -171,6 +178,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SD_Student_SD_Person">
+          <End Role="SD_Person" Type="Self.SD_Person" Multiplicity="1" />
+          <End Role="SD_Student" Type="Self.SD_Student" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="SD_Person">
+              <PropertyRef Name="PersonID" />
+            </Principal>
+            <Dependent Role="SD_Student">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="SD_CourseGrade_GetStudentGrades" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StudentID" Type="int" Mode="In" />
         </Function>
@@ -211,6 +230,7 @@
           <EntitySet Name="SD_OnlineCourse" EntityType="Self.SD_OnlineCourse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SD_OnsiteCourse" EntityType="Self.SD_OnsiteCourse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SD_Person" EntityType="Self.SD_Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SD_Student" EntityType="Self.SD_Student" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Course_Department" Association="Self.FK_Course_Department">
             <End Role="SD_Department" EntitySet="SD_Department" />
             <End Role="SD_Course" EntitySet="SD_Course" />
@@ -243,9 +263,12 @@
             <End Role="SD_Course" EntitySet="SD_Course" />
             <End Role="SD_OnsiteCourse" EntitySet="SD_OnsiteCourse" />
           </AssociationSet>
+          <AssociationSet Name="FK_SD_Student_SD_Person" Association="Self.FK_SD_Student_SD_Person">
+            <End Role="SD_Person" EntitySet="SD_Person" />
+            <End Role="SD_Student" EntitySet="SD_Student" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SchoolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -324,6 +347,7 @@
           <NavigationProperty Name="SD_CourseGrade" Relationship="Self.FK_CourseGrade_Student" FromRole="SD_Person" ToRole="SD_CourseGrade" />
           <NavigationProperty Name="SD_OfficeAssignment" Relationship="Self.FK_OfficeAssignment_Person" FromRole="SD_Person" ToRole="SD_OfficeAssignment" />
           <NavigationProperty Name="SD_Course" Relationship="Self.SD_CourseInstructor" FromRole="SD_Person" ToRole="SD_Course" />
+          <NavigationProperty Name="SD_Student" Relationship="SchoolModel.FK_SD_Student_SD_Person" FromRole="SD_Person" ToRole="SD_Student" />
         </EntityType>
         <Association Name="FK_Course_Department">
           <End Role="SD_Department" Type="Self.SD_Department" Multiplicity="1" />
@@ -438,10 +462,10 @@
             <End Role="SD_Person" EntitySet="SD_Person" />
           </AssociationSet>
           <FunctionImport Name="SD_CourseGrade_GetStudentGrades" ReturnType="Collection(SchoolModel.SD_CourseGrade_GetStudentGrades_Result)">
-            <Parameter Name="StudentID" Mode="In" Type="Int32" />
+          <Parameter Name="StudentID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SD_OfficeAssignment_DeleteOfficeAssignment">
-            <Parameter Name="InstructorID" Mode="In" Type="Int32" />
+          <Parameter Name="InstructorID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SD_OfficeAssignment_InsertOfficeAssignment" ReturnType="Collection(Binary)">
             <Parameter Name="InstructorID" Mode="In" Type="Int32" />
@@ -453,7 +477,7 @@
             <Parameter Name="OrigTimestamp" Mode="In" Type="Binary" />
           </FunctionImport>
           <FunctionImport Name="SD_Person_DeletePerson">
-            <Parameter Name="PersonID" Mode="In" Type="Int32" />
+          <Parameter Name="PersonID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SD_Person_InsertPerson" ReturnType="Collection(Decimal)">
             <Parameter Name="LastName" Mode="In" Type="String" />
@@ -468,11 +492,36 @@
             <Parameter Name="HireDate" Mode="In" Type="DateTime" />
             <Parameter Name="EnrollmentDate" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <EntitySet Name="SD_Student" EntityType="SchoolModel.SD_Student" />
+          <AssociationSet Name="FK_SD_Student_SD_Person" Association="SchoolModel.FK_SD_Student_SD_Person">
+            <End Role="SD_Person" EntitySet="SD_Person" />
+            <End Role="SD_Student" EntitySet="SD_Student" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SD_CourseGrade_GetStudentGrades_Result">
           <Property Type="Int32" Name="EnrollmentID" Nullable="false" />
           <Property Type="Decimal" Name="Grade" Nullable="true" Precision="3" Scale="2" />
         </ComplexType>
+        <EntityType Name="SD_Student">
+          <Key>
+            <PropertyRef Name="PersonID" />
+          </Key>
+          <Property Name="PersonID" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SD_Person" Relationship="SchoolModel.FK_SD_Student_SD_Person" FromRole="SD_Student" ToRole="SD_Person" />
+        </EntityType>
+        <Association Name="FK_SD_Student_SD_Person">
+          <End Type="SchoolModel.SD_Person" Role="SD_Person" Multiplicity="1" />
+          <End Type="SchoolModel.SD_Student" Role="SD_Student" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="SD_Person">
+              <PropertyRef Name="PersonID" />
+            </Principal>
+            <Dependent Role="SD_Student">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -570,6 +619,14 @@
           <FunctionImportMapping FunctionImportName="SD_Person_DeletePerson" FunctionName="SchoolModel.Store.SD_Person_DeletePerson" />
           <FunctionImportMapping FunctionImportName="SD_Person_InsertPerson" FunctionName="SchoolModel.Store.SD_Person_InsertPerson" />
           <FunctionImportMapping FunctionImportName="SD_Person_UpdatePerson" FunctionName="SchoolModel.Store.SD_Person_UpdatePerson" />
+          <EntitySetMapping Name="SD_Student">
+            <EntityTypeMapping TypeName="SchoolModel.SD_Student">
+              <MappingFragment StoreEntitySet="SD_Student">
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

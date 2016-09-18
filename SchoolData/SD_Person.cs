@@ -32,5 +32,6 @@ namespace SchoolData
         public virtual SD_OfficeAssignment SD_OfficeAssignment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SD_Course> SD_Course { get; set; }
+        public virtual SD_Student SD_Student { get; set; }
     }
 }
