@@ -507,7 +507,7 @@
             <PropertyRef Name="PersonID" />
           </Key>
           <Property Name="PersonID" Type="Int32" Nullable="false" />
-          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="year" Type="Int32" Nullable="false" a:GetterAccess="Protected" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Protected" />
           <NavigationProperty Name="SD_Person" Relationship="SchoolModel.FK_SD_Student_SD_Person" FromRole="SD_Student" ToRole="SD_Person" />
         </EntityType>
         <Association Name="FK_SD_Student_SD_Person">
@@ -622,7 +622,7 @@
           <EntitySetMapping Name="SD_Student">
             <EntityTypeMapping TypeName="SchoolModel.SD_Student">
               <MappingFragment StoreEntitySet="SD_Student">
-                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="year" ColumnName="Year" />
                 <ScalarProperty Name="PersonID" ColumnName="PersonID" />
               </MappingFragment>
             </EntityTypeMapping>

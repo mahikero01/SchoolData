@@ -92,5 +92,13 @@
     <FunctionImportMapping FunctionImportName="SD_Person_DeletePerson" FunctionName="SchoolModel.Store.SD_Person_DeletePerson" />
     <FunctionImportMapping FunctionImportName="SD_Person_InsertPerson" FunctionName="SchoolModel.Store.SD_Person_InsertPerson" />
     <FunctionImportMapping FunctionImportName="SD_Person_UpdatePerson" FunctionName="SchoolModel.Store.SD_Person_UpdatePerson" />
+    <EntitySetMapping Name="SD_Student">
+      <EntityTypeMapping TypeName="SchoolModel.SD_Student">
+        <MappingFragment StoreEntitySet="SD_Student">
+          <ScalarProperty Name="year" ColumnName="Year" />
+          <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

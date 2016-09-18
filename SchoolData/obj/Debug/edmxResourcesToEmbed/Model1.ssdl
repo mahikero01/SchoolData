@@ -70,6 +70,13 @@
     <Property Name="HireDate" Type="datetime" />
     <Property Name="EnrollmentDate" Type="datetime" />
   </EntityType>
+  <EntityType Name="SD_Student">
+    <Key>
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="PersonID" Type="int" Nullable="false" />
+    <Property Name="Year" Type="int" Nullable="false" />
+  </EntityType>
   <Association Name="FK_Course_Department">
     <End Role="SD_Department" Type="Self.SD_Department" Multiplicity="1" />
     <End Role="SD_Course" Type="Self.SD_Course" Multiplicity="*" />
@@ -166,6 +173,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SD_Student_SD_Person">
+    <End Role="SD_Person" Type="Self.SD_Person" Multiplicity="1" />
+    <End Role="SD_Student" Type="Self.SD_Student" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="SD_Student">
+        <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Function Name="SD_CourseGrade_GetStudentGrades" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="StudentID" Type="int" Mode="In" />
   </Function>
@@ -206,6 +225,7 @@
     <EntitySet Name="SD_OnlineCourse" EntityType="Self.SD_OnlineCourse" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SD_OnsiteCourse" EntityType="Self.SD_OnsiteCourse" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SD_Person" EntityType="Self.SD_Person" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SD_Student" EntityType="Self.SD_Student" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Course_Department" Association="Self.FK_Course_Department">
       <End Role="SD_Department" EntitySet="SD_Department" />
       <End Role="SD_Course" EntitySet="SD_Course" />
@@ -237,6 +257,10 @@
     <AssociationSet Name="FK_OnsiteCourse_Course" Association="Self.FK_OnsiteCourse_Course">
       <End Role="SD_Course" EntitySet="SD_Course" />
       <End Role="SD_OnsiteCourse" EntitySet="SD_OnsiteCourse" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SD_Student_SD_Person" Association="Self.FK_SD_Student_SD_Person">
+      <End Role="SD_Person" EntitySet="SD_Person" />
+      <End Role="SD_Student" EntitySet="SD_Student" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

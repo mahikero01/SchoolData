@@ -15,7 +15,7 @@ namespace SchoolData
     public partial class SD_Student
     {
         public int PersonID { get; set; }
-        public int Year { get; set; }
+        protected int year { get; set; }
     
         public virtual SD_Person SD_Person { get; set; }
     }

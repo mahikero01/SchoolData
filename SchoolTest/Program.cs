@@ -12,11 +12,14 @@ namespace SchoolTest
         static void Main(string[] args)
         {
             SchoolEntities context = new SchoolEntities();
-            var courses = from c in context.SD_Course select c;
+            var students = from s in context.SD_Student.Include("SD_Person").AsEnumerable()
+                           select 
+                            new { Name = s.SD_Person.FirstName,
+                                  Year = s.Year};
 
-            foreach (SD_Course c in courses)
+            foreach (var s in students)
             {
-                Console.WriteLine(c.Title);
+                Console.WriteLine(s.Name + " - " + s.Year.ToString());
             }
             Console.Read();
         }

@@ -75,6 +75,7 @@
     <NavigationProperty Name="SD_CourseGrade" Relationship="Self.FK_CourseGrade_Student" FromRole="SD_Person" ToRole="SD_CourseGrade" />
     <NavigationProperty Name="SD_OfficeAssignment" Relationship="Self.FK_OfficeAssignment_Person" FromRole="SD_Person" ToRole="SD_OfficeAssignment" />
     <NavigationProperty Name="SD_Course" Relationship="Self.SD_CourseInstructor" FromRole="SD_Person" ToRole="SD_Course" />
+    <NavigationProperty Name="SD_Student" Relationship="SchoolModel.FK_SD_Student_SD_Person" FromRole="SD_Person" ToRole="SD_Student" />
   </EntityType>
   <Association Name="FK_Course_Department">
     <End Role="SD_Department" Type="Self.SD_Department" Multiplicity="1" />
@@ -219,9 +220,34 @@
       <Parameter Name="HireDate" Mode="In" Type="DateTime" />
       <Parameter Name="EnrollmentDate" Mode="In" Type="DateTime" />
     </FunctionImport>
+    <EntitySet Name="SD_Student" EntityType="SchoolModel.SD_Student" />
+    <AssociationSet Name="FK_SD_Student_SD_Person" Association="SchoolModel.FK_SD_Student_SD_Person">
+      <End Role="SD_Person" EntitySet="SD_Person" />
+      <End Role="SD_Student" EntitySet="SD_Student" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="SD_CourseGrade_GetStudentGrades_Result">
     <Property Type="Int32" Name="EnrollmentID" Nullable="false" />
     <Property Type="Decimal" Name="Grade" Nullable="true" Precision="3" Scale="2" />
   </ComplexType>
+  <EntityType Name="SD_Student">
+    <Key>
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="PersonID" Type="Int32" Nullable="false" />
+    <Property Name="year" Type="Int32" Nullable="false" a:GetterAccess="Protected" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Protected" />
+    <NavigationProperty Name="SD_Person" Relationship="SchoolModel.FK_SD_Student_SD_Person" FromRole="SD_Student" ToRole="SD_Person" />
+  </EntityType>
+  <Association Name="FK_SD_Student_SD_Person">
+    <End Type="SchoolModel.SD_Person" Role="SD_Person" Multiplicity="1" />
+    <End Type="SchoolModel.SD_Student" Role="SD_Student" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="SD_Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="SD_Student">
+        <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
