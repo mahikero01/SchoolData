@@ -284,7 +284,7 @@
           <NavigationProperty Name="SD_CourseGrade" Relationship="Self.FK_CourseGrade_Course" FromRole="SD_Course" ToRole="SD_CourseGrade" />
           <NavigationProperty Name="SD_OnlineCourse" Relationship="Self.FK_OnlineCourse_Course" FromRole="SD_Course" ToRole="SD_OnlineCourse" />
           <NavigationProperty Name="SD_OnsiteCourse" Relationship="Self.FK_OnsiteCourse_Course" FromRole="SD_Course" ToRole="SD_OnsiteCourse" />
-          <NavigationProperty Name="SD_Person" Relationship="Self.SD_CourseInstructor" FromRole="SD_Course" ToRole="SD_Person" />
+          <NavigationProperty Name="Instructor" Relationship="Self.SD_CourseInstructor" FromRole="SD_Course" ToRole="SD_Person" />
         </EntityType>
         <EntityType Name="SD_CourseGrade">
           <Key>
@@ -344,9 +344,9 @@
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="HireDate" Type="DateTime" Precision="3" />
           <Property Name="EnrollmentDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="SD_CourseGrade" Relationship="Self.FK_CourseGrade_Student" FromRole="SD_Person" ToRole="SD_CourseGrade" />
+          <NavigationProperty Name="Grades" Relationship="Self.FK_CourseGrade_Student" FromRole="SD_Person" ToRole="SD_CourseGrade" />
           <NavigationProperty Name="SD_OfficeAssignment" Relationship="Self.FK_OfficeAssignment_Person" FromRole="SD_Person" ToRole="SD_OfficeAssignment" />
-          <NavigationProperty Name="SD_Course" Relationship="Self.SD_CourseInstructor" FromRole="SD_Person" ToRole="SD_Course" />
+          <NavigationProperty Name="Courses" Relationship="Self.SD_CourseInstructor" FromRole="SD_Person" ToRole="SD_Course" />
           <NavigationProperty Name="SD_Student" Relationship="SchoolModel.FK_SD_Student_SD_Person" FromRole="SD_Person" ToRole="SD_Student" />
         </EntityType>
         <Association Name="FK_Course_Department">

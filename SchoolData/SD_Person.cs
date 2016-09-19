@@ -17,8 +17,8 @@ namespace SchoolData
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SD_Person()
         {
-            this.SD_CourseGrade = new HashSet<SD_CourseGrade>();
-            this.SD_Course = new HashSet<SD_Course>();
+            this.Grades = new HashSet<SD_CourseGrade>();
+            this.Courses = new HashSet<SD_Course>();
         }
     
         public int PersonID { get; set; }
@@ -28,10 +28,10 @@ namespace SchoolData
         public Nullable<System.DateTime> EnrollmentDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SD_CourseGrade> SD_CourseGrade { get; set; }
+        public virtual ICollection<SD_CourseGrade> Grades { get; set; }
         public virtual SD_OfficeAssignment SD_OfficeAssignment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SD_Course> SD_Course { get; set; }
+        public virtual ICollection<SD_Course> Courses { get; set; }
         public virtual SD_Student SD_Student { get; set; }
     }
 }

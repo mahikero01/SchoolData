@@ -18,7 +18,7 @@ namespace SchoolData
         public SD_Course()
         {
             this.SD_CourseGrade = new HashSet<SD_CourseGrade>();
-            this.SD_Person = new HashSet<SD_Person>();
+            this.Instructor = new HashSet<SD_Person>();
         }
     
         public int CourseID { get; set; }
@@ -32,6 +32,6 @@ namespace SchoolData
         public virtual SD_OnlineCourse SD_OnlineCourse { get; set; }
         public virtual SD_OnsiteCourse SD_OnsiteCourse { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SD_Person> SD_Person { get; set; }
+        public virtual ICollection<SD_Person> Instructor { get; set; }
     }
 }
